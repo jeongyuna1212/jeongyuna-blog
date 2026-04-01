@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>프로그래밍 입문기 - 정유나 블로그</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">정유나 | Log</a>
+            <ul class="nav-links">
+                <li><a href="index.html">홈</a></li>
+                <li><a href="about.html">소개</a></li>
+                <li><a href="post1.html" class="active">글 목록</a></li>
+                <li><button id="theme-toggle" aria-label="다크 모드 전환">🌙</button></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main>
+        <article>
+            <div class="post-header">
+                <h1>신입생의 프로그래밍 입문기: C언어와 파이썬</h1>
+                <div class="post-meta" style="margin-top: 1rem;">
+                    <span>작성일: 2026-03-30</span>
+                    <span>작성자: 정유나</span>
+                    <span class="badge dev" style="margin-left:auto; margin-bottom:0;">개발 공부</span>
+                </div>
+            </div>
+
+            <div class="post-content">
+                <h2>1. 처음 만난 두 개의 언어</h2>
+                <p>
+                    공학 3계열에 소속된 저 정유나가 처음으로 공식적으로 배우게 된 코딩 언어는 
+                    바로 **C언어**와 **파이썬(Python)** 이었습니다. 프로그래밍에 문외한이었던 저에게 두 언어는 
+                    완전히 다른 성격을 가진 두 명의 멘토처럼 다가왔습니다. C언어는 아주 깐깐하고 엄격하지만 
+                    기본기를 확실하게 잡아주는 호랑이 선생님, 파이썬은 쉽고 친절하게 답안을 보여주는 천사 선생님 같았습니다.
+                </p>
+
+                <h2>2. 메모리를 직접 통제하는 C언어</h2>
+                <p>
+                    C언어를 배우며 가장 먼저 부딪혔던 거대한 장벽은 **포인터(Pointer)**였습니다. 
+                    다른 최신 언어들은 가비지 컬렉터가 알아서 쓰레기 메모리를 해제해주지만, C언어는 프로그래머가 직접 
+                    주소를 찾아가서 반환해야만 했습니다. 
+                </p>
+                <p>
+                    처음엔 실수로 프로그램이 강제종료되는 세그멘테이션 폴트를 밥먹듯이 겪었지만, 이 엄격함 덕분에 
+                    컴퓨터 운영체제가 메모리를 어떻게 다루는지 조금씩 이해하게 되었습니다. 포인터를 정복하는 날이 진짜 개발자가 되는 날이라고 굳게 믿고 있습니다!
+                </p>
+
+                <h2>3. 파이썬, 무한한 표현력의 언어</h2>
+                <p>
+                    파이썬 시간은 매번 실습이 즐거웠습니다. 타 언어에서 수십 줄을 써야 할 로직을 
+                    단 한 줄의 강력한 내장 함수 구문으로 대체할 수 있었습니다. 변수의 데이터 타입을 고민하지 않아도 되고, 
+                    거대한 오픈소스 생태계를 통해 어떤 라이브러리든 손쉽게 가져다 쓸 수 있는 점이 압도적으로 좋았습니다. 
+                </p>
+
+                <h2>4. 목적에 맞는 도구 고르기</h2>
+                <p>
+                    기계어로 바로 번역되는 컴파일 타임의 C언어, 한 줄씩 읽는 파이썬(인터프리터). 
+                    결국 모든 언어엔 장단점이 존재하며, 어떤 운영 환경에서, 어떤 목적으로 프로그램을 기획할 것인지에 따라 
+                    도구를 유연하게 선택하는 시야를 길러야겠다는 큰 교훈을 얻었습니다.
+                </p>
+            </div>
+
+            <div style="margin-top: 2.5rem; display: flex; justify-content: space-between; font-weight: 500;">
+                <a href="post1.html" style="color: var(--primary-color);">← 이전 글 읽기</a>
+                <a href="post3.html" style="color: var(--primary-color);">다음 글 읽기 →</a>
+            </div>
+        </article>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 정유나. 대학 과제 제출용으로 제작된 정적 웹사이트입니다.</p>
+        <p style="margin-top: 0.5rem; color: var(--text-muted); font-size: 0.8em;">Styled with Vanilla CSS • Vanilla JS Interactivity</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
