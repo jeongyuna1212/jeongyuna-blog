@@ -20,8 +20,12 @@
   --badge-bg-motiv: #fffff0;
   --badge-txt-motiv: #d69e2e;
 
+  /* 하이라이트 및 그라데이션용 컬러 */
+  --highlight-color: #ed8936;
+
   /* Hero 그라데이션 */
   --hero-bg: linear-gradient(135deg, #ebf4ff 0%, #e6fffa 100%);
+  --hero-alt-bg: linear-gradient(135deg, rgba(182, 208, 245, 0.6) 0%, rgba(224, 200, 247, 0.6) 100%); /* 반 톤 올린 채도 + 더 높은 투명도 */
 }
 
 [data-theme="dark"] {
@@ -36,6 +40,8 @@
   --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.5);
   --shadow-hover: 0 10px 15px -3px rgba(0, 0, 0, 0.6);
   --hero-bg: linear-gradient(135deg, #2c5282 0%, #285e61 100%);
+  --hero-alt-bg: linear-gradient(135deg, rgba(39, 61, 103, 0.85) 0%, rgba(75, 39, 103, 0.85) 100%); /* 다크 모드 반 톤 올린 채도 + 투명도 */
+  --highlight-color: #fbd38d;
   
   --badge-bg-univ: #2b6cb0;
   --badge-txt-univ: #ebf8ff;
@@ -56,6 +62,15 @@ body {
 }
 
 a { text-decoration: none; color: inherit; }
+
+/* Gradient Text for Headings */
+.gradient-text {
+  background: linear-gradient(to right, var(--primary-color), var(--highlight-color));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: inline-block;
+}
 
 /* 진행률 바 (읽기 상단 고정) */
 .progress-container {
@@ -107,6 +122,20 @@ a { text-decoration: none; color: inherit; }
 .nav-links a {
   font-weight: 500;
   transition: color 0.3s ease;
+  position: relative;
+}
+.nav-links a::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 2px;
+  bottom: -4px;
+  left: 0;
+  background-color: var(--primary-color);
+  transition: width 0.3s ease;
+}
+.nav-links a:hover::after, .nav-links a.active::after {
+  width: 100%;
 }
 .nav-links a:hover, .nav-links a.active { color: var(--primary-color); }
 
@@ -132,8 +161,29 @@ main { max-width: 900px; margin: 2rem auto; padding: 0 1.5rem; min-height: calc(
   border-radius: var(--radius);
   margin-bottom: 3rem;
   box-shadow: var(--shadow);
-  transition: background 0.3s ease;
   border: 1px solid var(--border-color);
+  position: relative;
+  overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.hero::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: linear-gradient(120deg, transparent, rgba(255,255,255,0.3), transparent);
+  transform: translateX(-100%);
+  transition: transform 0.6s ease;
+}
+.hero:hover::before {
+  transform: translateX(100%);
+}
+.hero:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-hover);
+}
+.hero-alt {
+  background: var(--hero-alt-bg);
 }
 .hero h1 { font-size: 2.25rem; margin-bottom: 1rem; }
 .hero p { color: var(--text-muted); font-size: 1.125rem; max-width: 650px; margin: 0 auto; }

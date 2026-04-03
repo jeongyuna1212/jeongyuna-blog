@@ -36,12 +36,35 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // 3. 페이지 읽기 프로그래스 바 (게시글 페이지일 때만 주입 및 작동)
+    // 3. 페이지 읽기 프로그래스 바 및 예상 읽기 시간 기능 (게시글 페이지일 때만 주입 및 작동)
     if (window.location.pathname.includes('post')) {
         const progressContainer = document.createElement('div');
         progressContainer.className = 'progress-container';
         progressContainer.innerHTML = '<div class="progress-bar" id="myBar"></div>';
         document.body.prepend(progressContainer);
+
+        // 새로운 기능: 예상 읽기 시간 계산
+        const postContent = document.querySelector('.post-content');
+        if (postContent) {
+            const text = postContent.innerText || postContent.textContent;
+            const wordCount = text.trim().split(/\s+/).length;
+            const readingTimeInfo = Math.ceil(wordCount / 150); // 한국어 기준 (약 150단어/분)
+            
+            const postMeta = document.querySelector('.post-meta');
+            if (postMeta) {
+                const timeSpan = document.createElement('span');
+                timeSpan.innerHTML = `⏱️ 예상 읽기 시간: ${readingTimeInfo}분`;
+                timeSpan.style.display = 'inline-flex';
+                timeSpan.style.alignItems = 'center';
+                // 뱃지보다 앞에 배치
+                const badge = postMeta.querySelector('.badge');
+                if (badge) {
+                    postMeta.insertBefore(timeSpan, badge);
+                } else {
+                    postMeta.appendChild(timeSpan);
+                }
+            }
+        }
 
         window.addEventListener('scroll', () => {
             let winScroll = document.body.scrollTop || document.documentElement.scrollTop;
