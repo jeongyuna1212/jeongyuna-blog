@@ -1,68 +1,111 @@
 // script.js
 document.addEventListener("DOMContentLoaded", () => {
     
-    // 1. 네비게이션 액티브 표시
-    const currentPath = window.location.pathname;
-    const navLinks = document.querySelectorAll('.nav-links a');
-    navLinks.forEach(link => {
-        link.classList.remove('active');
-        const href = link.getAttribute('href');
-        if (currentPath.endsWith(href) || (currentPath === '/' && href === 'index.html')) {
-            link.classList.add('active');
-        }
-    });
+    // 1. Visit Counter Simulation (LocalStorage)
+    // Create a base realistic number if empty
+    let totalVisits = parseInt(localStorage.getItem('totalVisits') || '3142');
+    let todayVisits = parseInt(localStorage.getItem('todayVisits') || '12');
 
-    // 2. 다크 모드 (Local Storage 연결)
-    const themeToggleBtn = document.getElementById('theme-toggle');
-    if (themeToggleBtn) {
-        // 기존 테마 불러오기
-        const savedTheme = localStorage.getItem('theme');
-        if (savedTheme === 'dark') {
-            document.body.setAttribute('data-theme', 'dark');
-            themeToggleBtn.innerText = '☀️';
-        }
+    // Only increment if it's the first visit of this browser session
+    if (!sessionStorage.getItem('visited')) {
+        totalVisits++;
+        todayVisits++;
+        localStorage.setItem('totalVisits', totalVisits);
+        localStorage.setItem('todayVisits', todayVisits);
+        sessionStorage.setItem('visited', 'true');
+    }
 
-        // 클릭 이벤트
-        themeToggleBtn.addEventListener('click', () => {
-            if (document.body.getAttribute('data-theme') === 'dark') {
-                document.body.removeAttribute('data-theme');
-                localStorage.setItem('theme', 'light');
-                themeToggleBtn.innerText = '🌙';
-            } else {
-                document.body.setAttribute('data-theme', 'dark');
-                localStorage.setItem('theme', 'dark');
-                themeToggleBtn.innerText = '☀️';
+    // Print to Sidebar
+    const statTotalEl = document.getElementById('stat-total');
+    const statTodayEl = document.getElementById('stat-today');
+    if (statTotalEl) statTotalEl.innerText = totalVisits.toLocaleString();
+    if (statTodayEl) statTodayEl.innerText = todayVisits.toLocaleString();
+
+
+    // 2. Search Box Implementation
+    const searchInput = document.getElementById('searchInput');
+    if (searchInput) {
+        searchInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                const query = searchInput.value.trim();
+                if (query) {
+                    window.location.href = `search.html?q=${encodeURIComponent(query)}`;
+                }
             }
         });
     }
 
-    // 3. 페이지 읽기 프로그래스 바 및 예상 읽기 시간 기능 (게시글 페이지일 때만 주입 및 작동)
-    if (window.location.pathname.includes('post')) {
-        const progressContainer = document.createElement('div');
-        progressContainer.className = 'progress-container';
-        progressContainer.innerHTML = '<div class="progress-bar" id="myBar"></div>';
-        document.body.prepend(progressContainer);
+    // 3. Search Results Render Logic (only active on search.html)
+    if (window.location.pathname.endsWith('search.html')) {
+        const urlParams = new URLSearchParams(window.location.search);
+        const query = urlParams.get('q');
+        const resultsTitle = document.getElementById('search-query-display');
+        const resultsContainer = document.getElementById('search-results-container');
+        
+        if (query && window.BLOG_POSTS) {
+            if(resultsTitle) resultsTitle.innerText = `"${query}" 검색 결과`;
+            const lowerQuery = query.toLowerCase();
+            const matchedPosts = window.BLOG_POSTS.filter(post => 
+                post.title.toLowerCase().includes(lowerQuery) || 
+                post.summary.toLowerCase().includes(lowerQuery) || 
+                post.categoryName.toLowerCase().includes(lowerQuery)
+            );
 
-        // 새로운 기능: 예상 읽기 시간 계산
-        const postContent = document.querySelector('.post-content');
-        if (postContent) {
-            const text = postContent.innerText || postContent.textContent;
+            if (matchedPosts.length > 0) {
+                resultsContainer.innerHTML = matchedPosts.map(post => `
+                    <a href="${post.filename}" class="post-card">
+                        <span class="badge ${post.categoryClass}">${post.categoryName}</span>
+                        <h3>${post.title}</h3>
+                        <p>${post.summary}</p>
+                        <div class="post-card-meta">
+                            <span>📅 ${post.date}</span>
+                            <span>· ✍️ 정유나</span>
+                        </div>
+                    </a>
+                `).join('');
+            } else {
+                resultsContainer.innerHTML = '<p style="padding: 3rem; text-align: center; color: var(--text-muted); font-size: 1.1rem;">일치하는 검색 결과가 없습니다.</p>';
+            }
+        } else {
+            if(resultsTitle) resultsTitle.innerText = '검색어를 입력해주세요.';
+        }
+    }
+
+    // 4. Dark Mode (Local Storage 연동)
+    const themeToggleBtn = document.getElementById('theme-toggle');
+    if (themeToggleBtn) {
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'dark') {
+            document.body.setAttribute('data-theme', 'dark');
+            themeToggleBtn.innerHTML = '☀️ 라이트모드';
+        }
+
+        themeToggleBtn.addEventListener('click', () => {
+            if (document.body.getAttribute('data-theme') === 'dark') {
+                document.body.removeAttribute('data-theme');
+                localStorage.setItem('theme', 'light');
+                themeToggleBtn.innerHTML = '🌙 다크모드';
+            } else {
+                document.body.setAttribute('data-theme', 'dark');
+                localStorage.setItem('theme', 'dark');
+                themeToggleBtn.innerHTML = '☀️ 라이트모드';
+            }
+        });
+    }
+
+    // 5. Scroll Progress Bar (For post pages ONLY)
+    if (window.location.pathname.includes('post_')) {
+        const postDetailContent = document.querySelector('.post-detail-content');
+        if (postDetailContent) {
+            const text = postDetailContent.innerText || postDetailContent.textContent;
             const wordCount = text.trim().split(/\s+/).length;
-            const readingTimeInfo = Math.ceil(wordCount / 150); // 한국어 기준 (약 150단어/분)
+            const readingTimeInfo = Math.ceil(wordCount / 150); // 한국어 약 150단어/분
             
-            const postMeta = document.querySelector('.post-meta');
-            if (postMeta) {
+            const metaInfo = document.querySelector('.meta-info');
+            if (metaInfo) {
                 const timeSpan = document.createElement('span');
-                timeSpan.innerHTML = `⏱️ 예상 읽기 시간: ${readingTimeInfo}분`;
-                timeSpan.style.display = 'inline-flex';
-                timeSpan.style.alignItems = 'center';
-                // 뱃지보다 앞에 배치
-                const badge = postMeta.querySelector('.badge');
-                if (badge) {
-                    postMeta.insertBefore(timeSpan, badge);
-                } else {
-                    postMeta.appendChild(timeSpan);
-                }
+                timeSpan.innerHTML = `⏱️ ${readingTimeInfo}분 소요`;
+                metaInfo.appendChild(timeSpan);
             }
         }
 
@@ -75,28 +118,22 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // 4. 맨 위로 가기 버튼 주입 및 작동
-    const scrollTopBtn = document.createElement('button');
-    scrollTopBtn.id = 'scrollTopBtn';
-    scrollTopBtn.innerText = '↑';
-    scrollTopBtn.title = '맨 위로 이동';
-    document.body.appendChild(scrollTopBtn);
-
-    window.addEventListener('scroll', () => {
-        // 스크롤이 300px 이상 내려가면 버튼 표시
-        if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
-            scrollTopBtn.style.display = "block";
-        } else {
-            scrollTopBtn.style.display = "none";
-        }
-    });
-
-    scrollTopBtn.addEventListener('click', () => {
-        window.scrollTo({
-            top: 0,
-            behavior: 'smooth'
+    // 6. Scroll To Top Button
+    const scrollTopBtn = document.getElementById('scrollTopBtn');
+    if (scrollTopBtn) {
+        window.addEventListener('scroll', () => {
+            if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
+                scrollTopBtn.style.display = "block";
+            } else {
+                scrollTopBtn.style.display = "none";
+            }
         });
-    });
 
-    console.log("Welcome to JUNG YUNA's Dev Blog!");
+        scrollTopBtn.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+    }
 });

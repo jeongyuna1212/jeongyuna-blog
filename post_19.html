@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>버전 관리의 시작, Git 활용법 (Part 2) - 정유나의 블로그</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="progress-container"><div class="progress-bar" id="myBar"></div></div>
+    
+    <div class="layout-wrapper">
+        
+    <aside class="sidebar">
+        <div class="sidebar-profile">
+            <div class="profile-img">🪐</div>
+            <h2 class="blog-name">정유나 | Log</h2>
+            <p class="blog-author">학생 개발자</p>
+        </div>
+        <div class="sidebar-stats">
+            <div>
+                <span class="stat-label">전체 방문자</span>
+                <span class="stat-val" id="stat-total">0</span>
+            </div>
+            <div>
+                <span class="stat-label">오늘</span>
+                <span class="stat-val" id="stat-today">0</span>
+            </div>
+        </div>
+        <div class="sidebar-search">
+            <div class="search-box">
+                <span>🔍</span>
+                <input type="text" id="searchInput" placeholder="검색어 입력 후 엔터">
+            </div>
+        </div>
+        <div class="sidebar-category">
+            <h3>분류 전체보기 <span class="cat-count">(50)</span></h3>
+            <ul>
+                <li><a href="category_univ.html">대학교 과목 <span class="cat-count">(17)</span></a></li>
+                <li><a href="category_dev.html">개발 공부 <span class="cat-count">(15)</span></a></li>
+                <li><a href="category_daily.html">일상/학습 <span class="cat-count">(18)</span></a></li>
+            </ul>
+        </div>
+        <div class="sidebar-footer">
+            <a href="index.html">🏠 홈 (Home)</a>
+            <a href="about.html">👋 소개글 보기 (About)</a>
+            <button id="theme-toggle" aria-label="다크 모드 전환">🌙 모드 스위치</button>
+        </div>
+    </aside>
+        <main class="main-content">
+            <article class="post-detail">
+                <header class="post-ambient-header">
+                    <div class="orb orb-1"></div>
+                    <div class="orb orb-2"></div>
+                    <div class="post-header-content">
+                        <div class="post-meta-badges">
+                            <span class="badge dev">개발 공부</span>
+                        </div>
+                        <h1 class="post-title">버전 관리의 시작, Git 활용법 (Part 2)</h1>
+                        <div class="meta-info">
+                            <span>✍️ 정유나</span>
+                            <span>📅 2025-07-17</span>
+                        </div>
+                    </div>
+                </header>
+
+                <section class="post-detail-content">
+                    <p>강의 시간에 배운 알고리즘을 직접 코드로 구현해보니 이해가 훨씬 빠릅니다. 팀 프로젝트를 진행하면서 의사소통 능력도 함께 키울 수 있었습니다. 대학에서 만난 동기들과 스터디를 하며 협업의 중요성을 깨달았습니다. 과제가 많아 힘들긴 하지만, 그만큼 성장하는 기분이 듭니다.</p>
+<p>깃허브를 이용한 버전 관리는 이제 선택이 아닌 필수라는 것을 절감합니다. 최근 핫한 프레임워크를 도입해보니 개발 속도가 비약적으로 향상되었습니다. 에러 메시지를 피하지 않고 깊이 있게 분석하는 습관을 들이고 있습니다. 새로운 프로그래밍 언어를 배우는 과정은 항상 설레고 흥미롭습니다. 서버와 클라이언트의 통신 방식을 이해하면서 웹 개발의 큰 그림을 그렸습니다.</p>
+<p>새로운 프로그래밍 언어를 배우는 과정은 항상 설레고 흥미롭습니다. 코드의 오류를 디버깅하면서 문제 해결 능력을 기르고 있습니다. 깃허브를 이용한 버전 관리는 이제 선택이 아닌 필수라는 것을 절감합니다. 매일 꾸준한 코딩 습관이 결국 큰 실력을 만든다고 믿습니다.</p>
+                </section>
+                
+                <div class="post-navigation">
+                    <a href="post_25.html" class="post-nav-card"><span>&larr; 이전 글</span><h4>이산수학 정리와 응용 (Part 2)</h4></a>
+                    <a href="post_8.html" class="post-nav-card" style="text-align: right;"><span>다음 글 &rarr;</span><h4>하루의 끝에서 작성하는 개발 일기 (Part 8)</h4></a>
+                </div>
+            </article>
+            
+    <footer>
+        <div style="margin-bottom: 0.5rem; font-weight: 600;">정유나의 기술 블로그</div>
+        <p>&copy; 2026 정유나. 눈이 편안한 감성 디자인 & 사이드바 레이아웃으로 다시 태어난 정장 블로그입니다.</p>
+    </footer>
+        </main>
+    </div>
+    
+    <button id="scrollTopBtn" aria-label="위로 가기">↑</button>
+    <script src="script.js"></script>
+</body>
+</html>
